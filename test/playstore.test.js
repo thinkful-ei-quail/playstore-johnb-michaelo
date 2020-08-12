@@ -14,7 +14,7 @@ describe('playStore app', () => {
     });
 
     //Sort
-    describe('sort queries', () => {      
+    describe('sort queries', () => {
       it('should be 400 if sort is incorrect', () => {
         return supertest(app)
           .get('/apps')
@@ -33,7 +33,12 @@ describe('playStore app', () => {
               expect(response.body).to.be.an('array');
               let i = 0, sorted = true;
               while (sorted && i < response.body.length - 1) {
-                if (response.body[i][sortValue] > response.body[i + 1][sortValue]) {
+                if (sortValue === 'App') {
+                  if (response.body[i][sortValue].toLowerCase() > response.body[i + 1][sortValue].toLowerCase()) {
+                    sorted = false;
+                  }
+                } else
+                if (response.body[i][sortValue] < response.body[i + 1][sortValue]) {
                   sorted = false;
                 }
                 i++;
@@ -43,10 +48,10 @@ describe('playStore app', () => {
         });
       });
     });
-    
 
 
-    describe('filter queries', ()=> {
+
+    describe('filter queries', () => {
       //Filter
       it('should be 400 if filter is incorrect', () => {
         return supertest(app)
@@ -54,7 +59,7 @@ describe('playStore app', () => {
           .query({ genres: 'INVALID-VALUE' })
           .expect(400, 'Please filter by "Action, Puzzle, Strategy, Casual, Arcade or Card"');
       });
-      
+
       const validGenres = ['Action', 'Puzzle', 'Strategy', 'Casual', 'Arcade', 'Card'];
       validGenres.forEach(genreValue => {
         it(`should return filtered playStore apps by ${genreValue}`, () => {
@@ -70,8 +75,8 @@ describe('playStore app', () => {
         });
       });
     });
-    
 
-    
+
+
   });
 });
