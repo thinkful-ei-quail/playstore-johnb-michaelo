@@ -4,8 +4,9 @@
   "description": "",
   "main": "playstoreServer.js",
   "scripts": {
-    "start": "node playstoreServer.js",
-    "dev": "nodemon playstoreServer.js"
+    "start": "node server",
+    "dev": "nodemon server",
+    "test": "mocha --watch"
   },
   "keywords": [],
   "author": "",
